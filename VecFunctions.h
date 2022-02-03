@@ -1,4 +1,6 @@
 #pragma once
+#ifndef VEC_FUNCTIONS_H
+#define VEC_FUNCTIONS_H
 #include <math.h>
 #include "Vec2.h"
 #include "Vec3.h"
@@ -13,7 +15,6 @@ float length(vec3 const& v) { return sqrt(v.x * v.x + v.y * v.y + v.z * v.z); }
 
 vec3 norm(vec3 v) { return v / length(v); }
 
-// scalar multiplication
 float dot(vec3 const& a, vec3 const& b) { return a.x * b.x + a.y * b.y + a.z * b.z; }
 
 vec3 abs(vec3 const& v) { return vec3(fabs(v.x), fabs(v.y), fabs(v.z)); }
@@ -62,7 +63,7 @@ vec2 sphere(vec3 ro_sub_so, vec3 rd, float r) {
     float b = 2*dot(rd, ro_sub_so);
     float c = dot(ro_sub_so, ro_sub_so)-r*r;
     if (b * b - 4 * a * c < 0) return vec2(-1.0);
-    else return vec2(( - b + sqrt(b * b - 4 * a * c))/(2*a), (-b - sqrt(b * b - 4 * a * c)) / (2 * a));
+    else return vec2(( - b - sqrt(b * b - 4 * a * c))/(2*a), (-b + sqrt(b * b - 4 * a * c)) / (2 * a));
 }
 
 vec2 box(vec3 ro, vec3 rd, vec3 boxSize, vec3& outNormal) {
@@ -83,3 +84,5 @@ vec2 box(vec3 ro, vec3 rd, vec3 boxSize, vec3& outNormal) {
 float plane(vec3 ro, vec3 rd, vec3 p, float w) {
     return -(dot(ro, p) + w) / dot(rd, p);
 }
+
+#endif // !VEC_FUNCTIONS_H
