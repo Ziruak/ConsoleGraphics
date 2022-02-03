@@ -10,5 +10,6 @@ struct vec2
 	vec2 operator+(vec2 const& other) { return vec2(x + other.x, y + other.y); }
 	vec2 operator-(vec2 const& other) { return vec2(x - other.x, y - other.y); }
 	vec2 operator*(vec2 const& other) { return vec2(x * other.x, y * other.y); }
+	vec2 operator*(const float other) { return vec2(x * other, y * other); }
 	vec2 operator/(vec2 const& other) { return vec2(x / other.x, y / other.y); }
 };

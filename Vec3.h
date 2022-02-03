@@ -13,6 +13,7 @@ struct vec3
 	vec3 operator+(vec3 const& other) { return vec3(x + other.x, y + other.y, z + other.z); }
 	vec3 operator-(vec3 const& other) { return vec3(x - other.x, y - other.y, z - other.z); }
 	vec3 operator*(vec3 const& other) { return vec3(x * other.x, y * other.y, z * other.z); }
+	vec3 operator*(const float other) { return vec3(x * other, y * other, z * other); }
 	vec3 operator/(vec3 const& other) { return vec3(x / other.x, y / other.y, z / other.z); }
 	vec3 operator-() { return vec3(-x, -y, -z); }
 

@@ -49,7 +49,7 @@ int main() {
 				ro = rotateZ(ro, t * 0.01);
 				rd = rotateZ(rd, t * 0.01);
 				float diff = 1;
-				for (int k = 0, reflect_count = 1; k < reflect_count; k++) {
+				for (int k = 0, reflect_count = 2; k < reflect_count; k++) {
 					float minIt = 99999;
 					vec2 intersection = sphere(ro - spherePos, rd, 1);
 					vec3 n = 0;
