@@ -1,94 +1,98 @@
 #include <iostream>
-#include <stdio.h>
 #include <math.h>
 #include <windows.h>
+#include <string.h>
+#include "Cam.h"
+#include "Sphere.h"
 #include "VecFunctions.h"
+#include "ConsoleScreen.h"
+#include <conio.h>
+#include <thread>
 
-void SetWindow(int Width, int Height)
-{
-	_COORD coord;
-	coord.X = Width;
-	coord.Y = Height;
-	_SMALL_RECT Rect;
-	Rect.Top = 0;
-	Rect.Left = 0;
-	Rect.Bottom = Height;
-	Rect.Right = Width;
-	HANDLE Handle = GetStdHandle(STD_OUTPUT_HANDLE);
-	SetConsoleScreenBufferSize(Handle, coord);
-	
-	SetConsoleWindowInfo(Handle, TRUE, &Rect);
+constexpr float p_aspect = 9.0f/15.0f;
+const float camSpeed = 0.2f;
+
+void inputProcess(Cam& cam, bool& running) {
+	while (running) {
+		char sym = _getch();
+		if (sym == 'w') {
+			cam.move(vec3(0,0,camSpeed));
+		}
+		else if (sym == 's') {
+			cam.move(vec3(0, 0, -camSpeed));
+		}
+		else if (sym == 'd') {
+			cam.move(vec3(0,camSpeed,0));
+		}
+		else if (sym == 'a') {
+			cam.move(vec3(0,-camSpeed,0));
+		}
+		else if (sym == 'z') {
+			cam.move(vec3(-camSpeed, 0, 0));
+		}
+		else if (sym == 'c') {
+			cam.move(vec3(camSpeed, 0, 0));
+		}
+		else if (sym == 'i') {
+			cam.pitchCam(90);
+		}
+		else if (sym == 'k') {
+			cam.pitchCam(-90);
+		}
+		else if (sym == 'j') {
+			cam.yawCam(-90);
+		}
+		else if (sym == 'l') {
+			cam.yawCam(90);
+		}
+		else if (sym == 'q') {
+			running = false;
+		}
+	}
 }
 
 int main() {
-	int width = 200;
-	int height = 50; // window width and height (in symbols)
-	SetWindow(width, height); // Sets console parameteres
-	float aspect = (float)width / height; // aspect for x value
-	float pixelAspect = 9.0f / 15.0f; // aspect because of symbol ratio
-	char gradient[] = " .:!/r(l1Z4H9W8$@"; // gradient to draw with
-	int gradientSize = std::size(gradient) - 2;
+	ConsoleScreen screen(160, 40);
+	float aspect = screen.getAspect(); // aspect for x value
+	float pixelAspect = 9.0f / 15.0f;
+	std::string gradient(" .:!/r(l1Z4H9W8$@");
+	std::string screenBuff(screen.getHeight() * screen.getWidth(),gradient[0]);
 
-	wchar_t* screen = new wchar_t[width * height];
-	HANDLE hConsole = CreateConsoleScreenBuffer(GENERIC_READ | GENERIC_WRITE, 0, NULL, CONSOLE_TEXTMODE_BUFFER, NULL);
-	SetConsoleActiveScreenBuffer(hConsole); // creates new screen buffer handle for console (can be deleted?)
-	DWORD dwBytesWritten = 0;
+	vec3 light = vec3(-1, 1, -1).norm();
+	Cam camera(vec3(5, 0, 0), vec3(-1, 0, 0), vec3(0, 0, 1), 0.9, screen.getScreenSize());
+	Sphere sphere(0, 0, 0, 4);
 
-	for (int t = 0; t < 10000; t++) {
-		vec3 light = norm(vec3(-0.5, 0.5, -1.0)); // light ray vector
-		vec3 spherePos = vec3(0, 3, 0); // sphere position
-		for (int i = 0; i < width; i++) {
-			for (int j = 0; j < height; j++) {
-				// i, j - current symbol coord
-				vec2 uv = vec2(i, j) / vec2(width, height) * 2.0f - 1.0f; // get coord vector from -1 to 1
-				uv.x *= aspect * pixelAspect; // calc x true coord
-				vec3 ro = vec3(-10, -1.5, -0.9); // camera coord
-				vec3 rd = norm(vec3(4.5, uv)); // camera look vector
-				ro = rotateY(ro, 0.25);
-				rd = rotateY(rd, 0.25);
-				ro = rotateZ(ro, t * 0.01);
-				rd = rotateZ(rd, t * 0.01);
-				float diff = 1;
-				for (int k = 0, reflect_count = 2; k < reflect_count; k++) {
-					float minIt = 99999;
-					vec2 intersection = sphere(ro - spherePos, rd, 1);
-					vec3 n = 0;
-					float albedo = 1;
-					if (intersection.x > 0) {
-						vec3 itPoint = ro - spherePos + rd * intersection.x; // point of intersection with a sphere
-						// rd*t1 = pos
-						minIt = intersection.x;
-						n = norm(itPoint);
-					}
-					vec3 boxN = 0;
-					intersection = box(ro, rd, 1, boxN);
-					if (intersection.x > 0 && intersection.x < minIt) {
-						minIt = intersection.x;
-						n = boxN;
-					}
-					/*intersection = plane(ro, rd, vec3(0, 0, -1), 1);
-					if (intersection.x > 0 && intersection.x < minIt) {
-						minIt = intersection.x;
-						n = vec3(0, 0, -1);
-						albedo = 0.5;
-					}*/
-					if (minIt < 99999) {
-						diff *= (dot(n, light) * 0.5 + 0.5) * albedo;
-						ro = ro + rd * (minIt - 0.01);
-						rd = reflect(rd, n);
-					}
-					else {
-						if (k == 0) diff = 0;
-						break;
-					}
+	bool running = true;
+
+	std::thread input_thread(inputProcess, std::ref(camera), std::ref(running));
+
+	while (running) {
+		for (int i = 0; i < screen.getWidth(); ++i) {
+			for (int j = 0; j < screen.getHeight(); ++j) {
+				if (i == screen.getWidth() / 2 && j == screen.getHeight() / 2) {
+					int flag = 1;
 				}
-				int color = (int)(diff * 20);
-				color = clamp(color, 0, gradientSize);
+				vec3 rayd = camera.getPixelVec(i, j);
+				vec3 campos = (camera.pos + (i - camera.screenSize.x / 2) * camera.look_r + (camera.screenSize.y / 2 - j) * camera.look_u);
+				rayd.x *= pixelAspect * aspect;
+				//rayd = rayd.norm();
+				rayd = camera.look_f;
+				vec3 n(0);
+				vec2 t(0);
+				if ((t = sphere.collisionsWithRay(campos, rayd)).x>0) {
+					n = (campos + rayd * t.x - sphere._pos).norm();
+				}
+				float diff = (dot(n, light) * 0.5 + 0.5);
+
+				int color = (int)(diff * 20)*(t.x>0);
+				color = clamp(color, 0, gradient.size()-1);
 				char pixel = gradient[color];
-				screen[i + j * width] = pixel; // set symbol in buffer
+				screenBuff[i + j * screen.getWidth()] = pixel;
 			}
 		}
-		screen[width * height - 1] = '\0';
-		WriteConsoleOutputCharacter(hConsole, screen, width * height, { 0, 0 }, &dwBytesWritten);
+		screen.setScreen(screenBuff);
 	}
+
+	input_thread.join();
+	return 0;
 }

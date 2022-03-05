@@ -24,9 +24,24 @@
     <ClInclude Include="VecFunctions.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
+    <ClInclude Include="Cam.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="Sphere.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderedObject.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="ConsoleScreen.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ConsoleRayTracing.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="ConsoleScreen.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
   </ItemGroup>

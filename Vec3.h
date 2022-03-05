@@ -10,8 +10,9 @@ public:
 
 	vec3(float _value) : x(_value), y(_value), z(_value) {};
 	vec3(float _x, vec2 const& v) : x(_x), y(v.x), z(v.y) {};
-	vec3(vec2 const& v, float _z) : x(v.x), y(v.y), z(_z) {};
+	vec3(const vec2& v, float _z) : x(v.x), y(v.y), z(_z) {};
 	vec3(float _x, float _y, float _z) : x(_x), y(_y), z(_z) {};
+	vec3(const vec3& v) : x(v.x), y(v.y), z(v.z) {};
 
 	vec3 operator+(vec3 const& other) { return vec3(x + other.x, y + other.y, z + other.z); }
 	vec3 operator-(vec3 const& other) { return vec3(x - other.x, y - other.y, z - other.z); }
@@ -19,6 +20,18 @@ public:
 	vec3 operator*(const float other) { return vec3(x * other, y * other, z * other); }
 	vec3 operator/(vec3 const& other) { return vec3(x / other.x, y / other.y, z / other.z); }
 	vec3 operator-() { return vec3(-x, -y, -z); }
+	vec3 operator=(vec3 const& other) {
+		this->x = other.x;
+		this->y = other.y;
+		this->z = other.z;
+		return *this;
+	}
+	vec3 operator+=(vec3 const& other) {
+		this->x += other.x;
+		this->y += other.y;
+		this->z += other.z;
+		return *this;
+	}
 
 	float length() { return sqrt(x * x + y * y + z * z); }
 	vec3 norm() { return *this / this->length(); }
@@ -58,5 +71,7 @@ public:
 		return b;
 	}
 };
+
+vec3 operator*(const float f, vec3& vec) { return vec * f; };
 
 #endif // !VEC_3_H
