@@ -1,7 +1,7 @@
 
-#include "ConsoleScreen.h"
+#include "ConsoleScreen_win.h"
 
-void ConsoleScreen::SetWindow(int Width, int Height)
+void ConsoleScreen_win::SetWindow(int Width, int Height)
 {
 	
 		_COORD coord;
@@ -19,14 +19,14 @@ void ConsoleScreen::SetWindow(int Width, int Height)
 	
 }
 
-void ConsoleScreen::setPixel(short x, short y, char sym)
+void ConsoleScreen_win::setPixel(short x, short y, char sym)
 {
 	wchar_t symbol[1] = { sym };
 	DWORD dwBytesWritten;
 	WriteConsoleOutputCharacter(_handleConsole, symbol, 1, { x, y }, &dwBytesWritten);
 }
 
-void ConsoleScreen::setScreen(std::string& buffer)
+void ConsoleScreen_win::setScreen(std::string& buffer)
 {
 	if (buffer.size() == _width * _height) {
 		size_t sizeofscreen = (_width * _height + 1);

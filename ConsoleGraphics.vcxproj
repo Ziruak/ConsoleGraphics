@@ -21,6 +21,8 @@
   <ItemGroup>
     <ClInclude Include="Cam.h" />
     <ClInclude Include="ConsoleScreen.h" />
+    <ClInclude Include="ConsoleScreen_other.h" />
+    <ClInclude Include="ConsoleScreen_win.h" />
     <ClInclude Include="RenderedObject.h" />
     <ClInclude Include="Sphere.h" />
     <ClInclude Include="Vec2.h" />
@@ -29,7 +31,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ConsoleRayTracing.cpp" />
-    <ClCompile Include="ConsoleScreen.cpp" />
+    <ClCompile Include="ConsoleScreen_win.cpp" />
+    <ClCompile Include="ConsoleScreen_other.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>

@@ -33,7 +33,13 @@
     <ClInclude Include="RenderedObject.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
+    <ClInclude Include="ConsoleScreen_win.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
     <ClInclude Include="ConsoleScreen.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="ConsoleScreen_other.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
   </ItemGroup>
@@ -41,7 +47,10 @@
     <ClCompile Include="ConsoleRayTracing.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="ConsoleScreen.cpp">
+    <ClCompile Include="ConsoleScreen_win.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="ConsoleScreen_other.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
   </ItemGroup>

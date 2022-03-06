@@ -1,11 +1,19 @@
 #include <iostream>
 #include <math.h>
-#include <windows.h>
 #include <string.h>
 #include "Cam.h"
 #include "Sphere.h"
 #include "VecFunctions.h"
-#include "ConsoleScreen.h"
+#ifdef _WIN32
+#include "ConsoleScreen_win.h"
+#define ConsoleScreen ConsoleScreen_win
+#else
+#include "ConsoleScreen_other.h"
+#define ConsoleScreen ConsoleScreen_other
+#endif // _WIN32
+
+
+
 #include <conio.h>
 #include <thread>
 
@@ -16,34 +24,34 @@ void inputProcess(Cam& cam, bool& running) {
 	while (running) {
 		char sym = _getch();
 		if (sym == 'w') {
-			cam.move(vec3(0,0,camSpeed));
+			cam.moveUp(camSpeed);
 		}
 		else if (sym == 's') {
-			cam.move(vec3(0, 0, -camSpeed));
+			cam.moveUp(-camSpeed);
 		}
 		else if (sym == 'd') {
-			cam.move(vec3(0,camSpeed,0));
+			cam.moveRight(camSpeed);
 		}
 		else if (sym == 'a') {
-			cam.move(vec3(0,-camSpeed,0));
+			cam.moveRight(-camSpeed);
 		}
 		else if (sym == 'z') {
-			cam.move(vec3(-camSpeed, 0, 0));
+			cam.moveFoward(camSpeed);
 		}
 		else if (sym == 'c') {
-			cam.move(vec3(camSpeed, 0, 0));
+			cam.moveFoward(-camSpeed);
 		}
 		else if (sym == 'i') {
-			cam.pitchCam(90);
+			cam.pitchCam(10);
 		}
 		else if (sym == 'k') {
-			cam.pitchCam(-90);
+			cam.pitchCam(-10);
 		}
 		else if (sym == 'j') {
-			cam.yawCam(-90);
+			cam.yawCam(10);
 		}
 		else if (sym == 'l') {
-			cam.yawCam(90);
+			cam.yawCam(-10);
 		}
 		else if (sym == 'q') {
 			running = false;
@@ -59,8 +67,9 @@ int main() {
 	std::string screenBuff(screen.getHeight() * screen.getWidth(),gradient[0]);
 
 	vec3 light = vec3(-1, 1, -1).norm();
-	Cam camera(vec3(5, 0, 0), vec3(-1, 0, 0), vec3(0, 0, 1), 0.9, screen.getScreenSize());
-	Sphere sphere(0, 0, 0, 4);
+	Cam camera(vec3(5, 0, 0), vec3(-1, 0, 0), vec3(0, 0, 1), 50.0f, screen.getScreenSize());
+	Sphere sphere(0, 0, 0, 2);
+	Sphere sphere2(0, 3, 1, 1);
 
 	bool running = true;
 
@@ -73,18 +82,20 @@ int main() {
 					int flag = 1;
 				}
 				vec3 rayd = camera.getPixelVec(i, j);
-				vec3 campos = (camera.pos + (i - camera.screenSize.x / 2) * camera.look_r + (camera.screenSize.y / 2 - j) * camera.look_u);
 				rayd.x *= pixelAspect * aspect;
-				//rayd = rayd.norm();
-				rayd = camera.look_f;
+				rayd = rayd.norm();
 				vec3 n(0);
-				vec2 t(0);
-				if ((t = sphere.collisionsWithRay(campos, rayd)).x>0) {
-					n = (campos + rayd * t.x - sphere._pos).norm();
+				vec2 tmin(0), tcur(0);
+				if ((tmin = sphere.collisionsWithRay(camera.pos, rayd)).x>0) {
+					n = (camera.pos + rayd * tmin.x - sphere._pos).norm();
+				}
+				if ((tcur = sphere2.collisionsWithRay(camera.pos, rayd)).x > 0 && (tcur.x < tmin.x || tmin.x <= 0)) {
+					tmin = tcur;
+					n = (camera.pos + rayd * tmin.x - sphere._pos).norm();
 				}
 				float diff = (dot(n, light) * 0.5 + 0.5);
 
-				int color = (int)(diff * 20)*(t.x>0);
+				int color = (int)(diff * 20)*(tmin.x>0);
 				color = clamp(color, 0, gradient.size()-1);
 				char pixel = gradient[color];
 				screenBuff[i + j * screen.getWidth()] = pixel;

@@ -1,27 +1,19 @@
 #pragma once
-#ifndef CONSOLE_SCREEN_CLASS
-#include <Windows.h>
-#include "Vec2.h";
-#include <string>
+#ifndef ICONSOLE_H
+#define ICONSOLE_H
+#include<string>
+#include"Vec2.h"
 
-class ConsoleScreen
-{
+class IConsole {
 	int _width, _height;
-	HANDLE _handleConsole;
-	void SetWindow(int width, int height);
 
 public:
-	ConsoleScreen(int width, int height) : _width(width), _height(height) { SetWindow(width, height);
-	_handleConsole = CreateConsoleScreenBuffer(GENERIC_READ | GENERIC_WRITE, 0, NULL, CONSOLE_TEXTMODE_BUFFER, NULL);
-	SetConsoleActiveScreenBuffer(_handleConsole);
-	};
-	int getWidth() { return _width; };
-	int getHeight() { return _height; };
-	vec2 getScreenSize() { return vec2(_width, _height); };
-	void setPixel(short x, short y, char sym);
-	void setScreen(std::string& buffer);
-	float getAspect() { return _width / (float)_height; };
+
+	virtual int getWidth() { return _width; };
+	virtual int getHeight() { return _height; };
+	virtual void setScreen(std::string& buffer) = 0;
+	virtual vec2 getScreenSize() { return vec2(_width, _height); };
+	virtual float getAspect() { return _width / (float)_height; };
 };
 
-#endif // !CONSOLE_SCREEN_CLASS
-
+#endif // !ICONSOLE_H
