@@ -1,5 +1,6 @@
 #pragma once
-#ifndef RENDERED_OBJECT_CLASS
+#ifndef RENDERED_OBJECT_H
+#define RENDERED_OBJECT_H
 #include "Vec3.h"
 #include "VecFunctions.h"
 

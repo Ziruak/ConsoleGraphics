@@ -14,7 +14,7 @@
 
 
 
-#include <conio.h>
+#include <conio.h> // WIN ONLY((
 #include <thread>
 
 constexpr float p_aspect = 9.0f/15.0f;
@@ -67,9 +67,9 @@ int main() {
 	std::string screenBuff(screen.getHeight() * screen.getWidth(),gradient[0]);
 
 	vec3 light = vec3(-1, 1, -1).norm();
-	Cam camera(vec3(5, 0, 0), vec3(-1, 0, 0), vec3(0, 0, 1), 50.0f, screen.getScreenSize());
+	Cam camera(vec3(5, 0, 0), vec3(-1, 0, 0), vec3(0, 0, 1), 90.0f, screen.getScreenSize());
 	Sphere sphere(0, 0, 0, 2);
-	Sphere sphere2(0, 3, 1, 1);
+	Sphere sphere2(0, 3, 1, 1.5f);
 
 	bool running = true;
 
@@ -82,7 +82,7 @@ int main() {
 					int flag = 1;
 				}
 				vec3 rayd = camera.getPixelVec(i, j);
-				rayd.x *= pixelAspect * aspect;
+				rayd.x *= aspect*pixelAspect;
 				rayd = rayd.norm();
 				vec3 n(0);
 				vec2 tmin(0), tcur(0);

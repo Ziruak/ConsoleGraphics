@@ -30,9 +30,14 @@
     <ClInclude Include="VecFunctions.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Cam.cpp" />
     <ClCompile Include="ConsoleRayTracing.cpp" />
     <ClCompile Include="ConsoleScreen_win.cpp" />
     <ClCompile Include="ConsoleScreen_other.cpp" />
+    <ClCompile Include="Sphere.cpp" />
+    <ClCompile Include="Vec2.cpp" />
+    <ClCompile Include="Vec3.cpp" />
+    <ClCompile Include="VecFunctions.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>

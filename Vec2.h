@@ -13,16 +13,16 @@ public:
 	vec2(float value) : x(value), y(value) {}
 	vec2(float _x, float _y) : x(_x), y(_y) {}
 
-	vec2 operator+(vec2 const& other) { return vec2(x + other.x, y + other.y); }
-	vec2 operator-(vec2 const& other) { return vec2(x - other.x, y - other.y); }
-	vec2 operator*(vec2 const& other) { return vec2(x * other.x, y * other.y); }
-	vec2 operator*(const float other) { return vec2(x * other, y * other); }
-	vec2 operator/(vec2 const& other) { return vec2(x / other.x, y / other.y); }
+	vec2 operator+(vec2 const& other);
+	vec2 operator-(vec2 const& other);
+	vec2 operator*(vec2 const& other);
+	vec2 operator*(const float other);
+	vec2 operator/(vec2 const& other);
 
-	float length() { return sqrt(x * x + y * y); }
-	vec2 norm() { return *this / this->length(); }
-	float dot(vec2 const& b) { return x * b.x + y * b.y; }
-	vec2 abs() { return vec2(fabs(x), fabs(y)); }
+	float length();
+	vec2 norm();
+	float dot(vec2 const& b);
+	vec2 abs();
 };
 
 #endif // !VEC_2_H
