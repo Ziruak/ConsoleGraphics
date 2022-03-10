@@ -9,3 +9,11 @@ vec2 Sphere::collisionsWithRay(vec3 pos, vec3 ray)
 	if (b * b - 4 * a * c < 0) return vec2(-1.0);
 	else return vec2((-b - sqrt(b * b - 4 * a * c)) / (2 * a), (-b + sqrt(b * b - 4 * a * c)) / (2 * a));
 }
+
+vec3 Sphere::getNorm(vec3 point)
+{
+	vec3 norm(0);
+	if (fabsf((point - _pos).length() - _r) <= 1e-4f)
+		norm = point - _pos;
+	return norm;
+}

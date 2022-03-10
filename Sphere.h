@@ -6,7 +6,7 @@
 #include "Vec3.h"
 #include "RenderedObject.h"
 
-class Sphere:RenderedObject {
+class Sphere:public IRenderedObject {
 public:
 	vec3 _pos;
 	float _r;
@@ -15,6 +15,7 @@ public:
 	Sphere(float x, float y, float z, float r) : _pos(vec3(x, y, z)), _r(r) {};
 
 	vec2 collisionsWithRay(vec3 pos, vec3 ray);
+	vec3 getNorm(vec3 point);
 };
 
 #endif // !SPHERE_H

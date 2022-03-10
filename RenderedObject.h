@@ -4,9 +4,11 @@
 #include "Vec3.h"
 #include "VecFunctions.h"
 
-class RenderedObject
+class IRenderedObject
 {
+public:
 	virtual vec2 collisionsWithRay(vec3 pos, vec3 ray)=0;
+	virtual vec3 getNorm(vec3 point) = 0;
 };
 
 #endif // !RENDERED_OBJECT_CLASS

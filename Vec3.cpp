@@ -21,6 +21,25 @@ vec3 vec3::operator+=(const vec3 other) {
 	return *this;
 }
 
+float vec3::operator[](const int i)
+{
+	switch (i)
+	{
+	case 0:
+		return x;
+		break;
+	case 1:
+		return y;
+		break;
+	case 2:
+		return z;
+		break;
+	default:
+		throw std::exception("Array out of bounds");
+		break;
+	}
+}
+
 float vec3::length() { return sqrt(x * x + y * y + z * z); }
 vec3 vec3::norm() { return *this / this->length(); }
 float vec3::dot(vec3 const& b) { return x * b.x + y * b.y + z * b.z; }

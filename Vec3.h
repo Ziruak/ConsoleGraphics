@@ -2,6 +2,7 @@
 #ifndef VEC_3_H
 #define VEC_3_H
 #include "Vec2.h"
+#include <vector>
 
 class vec3
 {
@@ -13,6 +14,7 @@ public:
 	vec3(const vec2 v, float _z) : x(v.x), y(v.y), z(_z) {};
 	vec3(float _x, float _y, float _z) : x(_x), y(_y), z(_z) {};
 	vec3(const vec3& v) : x(v.x), y(v.y), z(v.z) {};
+	vec3(const std::vector<float> v) : x(v[0]), y(v[1]), z(v[2]) {};
 
 	vec3 operator+(const vec3 other);
 	vec3 operator-(const vec3 other);
@@ -22,6 +24,7 @@ public:
 	vec3 operator-();
 	vec3 operator=(const vec3 other);
 	vec3 operator+=(const vec3 other);
+	float operator[](const int i);
 
 	float length();
 	vec3 norm();

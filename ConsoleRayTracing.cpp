@@ -4,6 +4,8 @@
 #include "Cam.h"
 #include "Sphere.h"
 #include "VecFunctions.h"
+#include "Scene.h"
+#include "Vec3.h"
 #ifdef _WIN32
 #include "ConsoleScreen_win.h"
 #define ConsoleScreen ConsoleScreen_win
@@ -68,8 +70,7 @@ int main() {
 
 	vec3 light = vec3(-1, 1, -1).norm();
 	Cam camera(vec3(5, 0, 0), vec3(-1, 0, 0), vec3(0, 0, 1), 90.0f, screen.getScreenSize());
-	Sphere sphere(0, 0, 0, 2);
-	Sphere sphere2(0, 3, 1, 1.5f);
+	Scene scene({ new Sphere(0,0,0,2),  new Sphere(0,3,1,1.5f) });
 
 	bool running = true;
 
@@ -84,18 +85,10 @@ int main() {
 				vec3 rayd = camera.getPixelVec(i, j);
 				rayd.x *= aspect*pixelAspect;
 				rayd = rayd.norm();
-				vec3 n(0);
-				vec2 tmin(0), tcur(0);
-				if ((tmin = sphere.collisionsWithRay(camera.pos, rayd)).x>0) {
-					n = (camera.pos + rayd * tmin.x - sphere._pos).norm();
-				}
-				if ((tcur = sphere2.collisionsWithRay(camera.pos, rayd)).x > 0 && (tcur.x < tmin.x || tmin.x <= 0)) {
-					tmin = tcur;
-					n = (camera.pos + rayd * tmin.x - sphere._pos).norm();
-				}
+				vec3 n = scene.getClosestCollision(camera.pos,rayd);
 				float diff = (dot(n, light) * 0.5 + 0.5);
 
-				int color = (int)(diff * 20)*(tmin.x>0);
+				int color = (int)(diff * 20)*(n.length()>0);
 				color = clamp(color, 0, gradient.size()-1);
 				char pixel = gradient[color];
 				screenBuff[i + j * screen.getWidth()] = pixel;
