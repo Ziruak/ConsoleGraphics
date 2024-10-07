@@ -1,4 +1,4 @@
-#include "Sphere.h"
+#include <Sphere.h>
 
 vec2 Sphere::collisionsWithRay(vec3 pos, vec3 ray)
 {

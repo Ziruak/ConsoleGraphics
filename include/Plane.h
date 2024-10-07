@@ -1,6 +1,6 @@
 #pragma once
 #ifndef PLANE_H
-#include "RenderedObject.h";
+#include "RenderedObject.h"
 #include "Vec3.h"
 
 class Plane : public IRenderedObject

@@ -1,4 +1,4 @@
-#include "Matrix.h"
+#include <Matrix.h>
 
 
 //template<typename T>
@@ -92,6 +92,7 @@ bool mat3::operator==(const mat3& m)
 	for (size_t i = 0; i < 9 && res; ++i) {
 		res = (_arr[i] == m._arr[i]);
 	}
+    return res;
 }
 
 mat3 operator*(const float f, const mat3& m)

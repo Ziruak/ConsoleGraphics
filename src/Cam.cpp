@@ -1,8 +1,8 @@
 #ifndef _USE_MATH_DEFINES
 #define _USE_MATH_DEFINES
 #endif
-#include "Cam.h"
-#include<cmath>
+#include <Cam.h>
+#include <cmath>
 
 
 void Cam::move(vec3 v)

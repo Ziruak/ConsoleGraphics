@@ -1,22 +1,24 @@
 #include <iostream>
 #include <math.h>
 #include <string.h>
-#include "Cam.h"
-#include "Sphere.h"
-#include "VecFunctions.h"
-#include "Scene.h"
-#include "Vec3.h"
+
+#include <Cam.h>
+#include <Sphere.h>
+#include <VecFunctions.h>
+#include <Scene.h>
+#include <Vec3.h>
 #ifdef _WIN32
-#include "ConsoleScreen_win.h"
+#include <ConsoleScreen_win.h>
+#include <conio.h> // WIN ONLY((
 #define ConsoleScreen ConsoleScreen_win
 #else
-#include "ConsoleScreen_other.h"
+#include <ConsoleScreen_other.h>
+#include <ncurses.h>
 #define ConsoleScreen ConsoleScreen_other
 #endif // _WIN32
 
 
 
-#include <conio.h> // WIN ONLY((
 #include <thread>
 
 constexpr float p_aspect = 9.0f/15.0f;
@@ -24,7 +26,7 @@ const float camSpeed = 0.2f;
 
 void inputProcess(Cam& cam, bool& running) {
 	while (running) {
-		char sym = _getch();
+		char sym =getch();
 		if (sym == 'w') {
 			cam.moveUp(camSpeed);
 		}

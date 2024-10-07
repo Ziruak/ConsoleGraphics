@@ -1,4 +1,4 @@
-#include "Vec3.h"
+#include <Vec3.h>
 
 vec3 operator*(const float f, vec3& vec) { return vec * f; }
 
@@ -35,7 +35,7 @@ float vec3::operator[](const int i)
 		return z;
 		break;
 	default:
-		throw std::exception("Array out of bounds");
+		throw std::exception();//"Array out of bounds");
 		break;
 	}
 }

@@ -1,4 +1,4 @@
-#include "Plane.h"
+#include <Plane.h>
 
 vec3 Plane::getNorm(vec3 point)
 {
@@ -11,4 +11,10 @@ vec3 Plane::getNorm(vec3 point)
 bool Plane::pointOnPlane(vec3 point)
 {
     return fabsf(_norm.dot(point-_point))<=1e-4f;
+}
+
+vec2 Plane::collisionsWithRay(vec3 pos, vec3 ray)
+{
+    //return -(dot(ro, p) + w) / dot(rd, p);
+    return false; // TODO: Add
 }

@@ -1,4 +1,4 @@
-#include "MathFunctions.h"
+#include <MathFunctions.h>
 
 //vec3 solveGauss(mat3 coef, vec3 r)
 //{

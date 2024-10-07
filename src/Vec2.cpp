@@ -1,4 +1,4 @@
-#include "Vec2.h"
+#include <Vec2.h>
 
 vec2 vec2::operator+(vec2 const& other)
 {

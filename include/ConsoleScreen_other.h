@@ -2,7 +2,7 @@
 #ifndef CONSOLE_SCREEN_OTHER
 #define CONSOLE_SCREEN_OTHER
 #include "ConsoleScreen.h"
-#include "Vec2.h";
+#include "Vec2.h"
 #include <string>
 
 class ConsoleScreen_other : IConsole
