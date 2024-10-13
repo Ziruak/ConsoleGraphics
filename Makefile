@@ -1,6 +1,6 @@
-CC=g++
-CFLAGS=-c -I include 
-LFLAGS=-lncurses
+CC=clang++
+CFLAGS=-c -I include -pthread 
+LFLAGS= -lm -lncurses -lpthread
 PROGRAM_NAME=console-graphics
 
 SRC_FILES=$(wildcard src/*.cpp)

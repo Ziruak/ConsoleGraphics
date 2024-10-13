@@ -10,9 +10,9 @@ class ConsoleScreen_other : IConsole
 	int _width, _height;
 
 public:
-	ConsoleScreen_other(int width, int height) : _width(width), _height(height) {
-	};
-	int getWidth() { return _width; };
+	ConsoleScreen_other(int width, int height);
+    ~ConsoleScreen_other();
+    int getWidth() { return _width; };
 	int getHeight() { return _height; };
 	vec2 getScreenSize() { return vec2(_width, _height); };
 	void setScreen(std::string& buffer);

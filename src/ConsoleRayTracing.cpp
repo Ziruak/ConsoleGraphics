@@ -1,6 +1,7 @@
 #include <iostream>
 #include <math.h>
 #include <string.h>
+#include <thread>
 
 #include <Cam.h>
 #include <Sphere.h>
@@ -26,7 +27,7 @@ const float camSpeed = 0.2f;
 
 void inputProcess(Cam& cam, bool& running) {
 	while (running) {
-		char sym =getch();
+		int sym =getch();
 		if (sym == 'w') {
 			cam.moveUp(camSpeed);
 		}
